@@ -276,5 +276,7 @@ text = "Open the lid"
 [node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
 transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
 
-[node name="PickableObject" parent="." instance=ExtResource("5_2p64v")]
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="PickableObject" parent="Node3D" instance=ExtResource("5_2p64v")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2739119, 0, 0.35729563)
