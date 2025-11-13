@@ -1,35 +1,53 @@
 extends Node
 
-# Reference to the hinge and display label
-@onready var hinge = $"./GramophoneLid/LidOrigin/InteractableLever"
-@onready var success_label = $"./Label3D"
+@onready var lid_hinge = $"./GramophoneLid/LidOrigin/InteractableLever"
+@onready var lid_handle = $"./GramophoneLid/LidOrigin/InteractableLever/HandleOrigin/InteractableHandle"
+@onready var text_label = $"./Label3D"
 
-# Track the starting angle
 var starting_angle: float = 0.0
+var has_auto_opened: bool = false
+
+# State machine flags.
+var can_interact_with_lid: bool = false
+var can_interact_with_crank: bool = false
 
 func _ready():
-	# Store the initial angle when scene starts
-	starting_angle = 0.0  # Hinge typically starts at 0
+	# Store the initial angle when scene starts.
+	starting_angle = 0.0  # Hinge typically starts at 0.
 	
-	# Make the label visible and set initial text
-	if success_label:
-		success_label.visible = true
-		success_label.text = "Angle: 0.0°"
+	# Allow interactions with the lid
+	can_interact_with_lid = true
+	# Set initial text on the label.
+	if text_label:
+		text_label.text = "Open the lid on the gramophone."
 	
 	# Connect to the hinge_moved signal
-	if hinge:
-		hinge.hinge_moved.connect(_on_hinge_moved)
-		print("Hinge monitor connected successfully")
+	if lid_hinge:
+		lid_hinge.hinge_moved.connect(_on_hinge_moved)
+		print("Hinge connected successfully")
 	else:
 		push_error("Hinge not found! Check the node path.")
 
 func _on_hinge_moved(current_angle: float):
 	# Calculate the angle difference from starting position
-	var angle_difference = current_angle - starting_angle
+	var calculated_angle_difference = absf(current_angle - starting_angle)
 	
-	# Update the label with the current angle (formatted to 1 decimal place)
-	if success_label:
-		success_label.text = "Angle: %.1f°" % angle_difference
+	if calculated_angle_difference > 70 && text_label && !has_auto_opened:
+		has_auto_opened = true
+		
+		# Lerp the lid fully open to 90 degrees (-90.0 here because of the orientation)
+		var tween = create_tween()
+		tween.tween_property(lid_hinge, "rotation_degrees:x", -90.0, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+		
+		# Disable interaction after animation completes
+		tween.finished.connect(_on_lid_opened)
+
+func _on_lid_opened():
+	# Find and disable the XRToolsPickable node
+	text_label.text = "Great! Now pick up the crank."
 	
-	# Debug output to console
-	print("Current angle: %.1f | Difference: %.1f" % [current_angle, angle_difference])
+	if lid_handle:
+		lid_handle.enabled = false
+		text_label.text = "Lid disabled."
+	else:
+		push_error("XRToolsPickable node not found on hinge")

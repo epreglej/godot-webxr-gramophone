@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=4 uid="uid://dqxeeyh87b1jm"]
+[gd_scene load_steps=19 format=4 uid="uid://dqxeeyh87b1jm"]
 
 [ext_resource type="PackedScene" uid="uid://cytsgddgkcb5o" path="res://scenes/gramophone_lid.tscn" id="1_3vx45"]
 [ext_resource type="Script" uid="uid://dwkf6hcob017" path="res://scenes/gramophone_system.gd" id="1_xktn6"]
 [ext_resource type="Texture2D" uid="uid://16ulojtfk6o7" path="res://models/gramophone_baked_mesh_tex0.png" id="2_xktn6"]
 [ext_resource type="Texture2D" uid="uid://b8q647sdxy4kp" path="res://models/gramophone_baked_mesh_tex0.png.png" id="3_2p64v"]
+[ext_resource type="PackedScene" uid="uid://cj4v66ny8a5b0" path="res://scenes/gramophone_crank.tscn" id="5_2p64v"]
+[ext_resource type="PackedScene" uid="uid://dcf6yl2uhhulf" path="res://scenes/gramophone_crank_snap_zone.tscn" id="6_5a3ux"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cg18b"]
 resource_name = "Texture"
@@ -240,7 +242,7 @@ script = ExtResource("1_xktn6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10354881, 0)
 
 [node name="gramophone" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.094031304)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09555662)
 
 [node name="inferior" type="MeshInstance3D" parent="gramophone"]
 transform = Transform3D(0.009999999, 0, 0, 0, 0, -0.009999999, 0, 0.009999999, 0, 0, 0, 0)
@@ -270,3 +272,9 @@ skeleton = NodePath("")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76781833, 0)
 text = "Open the lid"
+
+[node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
+transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
+
+[node name="PickableObject" parent="." instance=ExtResource("5_2p64v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2739119, 0, 0.35729563)

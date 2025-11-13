@@ -43,7 +43,7 @@ script = ExtResource("8_efxa6")
 actions = Array[ExtResource("6_kek77")]([SubResource("Resource_w48qg")])
 metadata/_custom_type_script = "uid://dhppxvui1etbk"
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D2" type="Node3D"]
 
 [node name="StartXR" parent="." instance=ExtResource("1_lquwl")]
 
