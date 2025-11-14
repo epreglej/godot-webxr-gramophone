@@ -279,4 +279,20 @@ transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.0944
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="PickableObject" parent="Node3D" instance=ExtResource("5_2p64v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2739119, 0, 0.35729563)
+transform = Transform3D(0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 0, 0, 0, 1, 0.2550099, 0.028261498, 0.10701734)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Hello"

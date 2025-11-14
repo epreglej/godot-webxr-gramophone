@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://wvuydjyfgoe"]
+[gd_scene load_steps=28 format=3 uid="uid://wvuydjyfgoe"]
 
 [ext_resource type="PackedScene" uid="uid://btknduttnmoxf" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_lquwl"]
@@ -13,6 +13,11 @@
 [ext_resource type="Script" uid="uid://dhppxvui1etbk" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="8_efxa6"]
 [ext_resource type="Resource" uid="uid://dhbqusuodrl3r" path="res://addons/hand_pose_detector/poses/fist.tres" id="12_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://dqxeeyh87b1jm" path="res://scenes/gramophone_system.tscn" id="13_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://dyrevsuh0krqx" path="res://textures/wooden_floor/textures/wood_floor_diff_1k.jpg" id="14_074og"]
+[ext_resource type="PackedScene" uid="uid://c40cnoapub3pd" path="res://models/shelf.glb" id="15_2cqfq"]
+[ext_resource type="Texture2D" uid="uid://dm033lubpu3n6" path="res://textures/wooden_floor/textures/wood_floor_nor_gl_1k.jpg" id="15_cegan"]
+[ext_resource type="PackedScene" uid="uid://vpgh2k6i20fo" path="res://models/table.glb" id="15_vivmo"]
+[ext_resource type="PackedScene" uid="uid://kcsxpb0157yp" path="res://models/sofa.glb" id="16_2cqfq"]
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("6_kek77")
@@ -40,8 +45,15 @@ metadata/_custom_type_script = "uid://dhppxvui1etbk"
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7dm0k"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82xsv"]
+albedo_texture = ExtResource("14_074og")
+normal_enabled = true
+normal_texture = ExtResource("15_cegan")
+uv1_scale = Vector3(3, 3, 3)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_1bvp3"]
-size = Vector2(10, 7)
+material = SubResource("StandardMaterial3D_82xsv")
+size = Vector2(5, 7)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ycdy4"]
 size = Vector3(3, 3, 0.1)
@@ -111,9 +123,10 @@ controller_action_map = SubResource("Resource_vivmo")
 hand_tracker_name = "/user/hand_tracker/right"
 
 [node name="GramophoneSystem" parent="." instance=ExtResource("13_ycdy4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2783272, 1, -1.9499061)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.71909463, 0.6915636, -2.3546166)
 
 [node name="Environment" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0164171, 0, 0)
 
 [node name="Floor" type="StaticBody3D" parent="Environment"]
 
@@ -121,7 +134,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2783272, 1, -1.9499061)
 shape = SubResource("WorldBoundaryShape3D_7dm0k")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.054163218, 0, 1.0395125)
 mesh = SubResource("PlaneMesh_1bvp3")
 
 [node name="Wall" type="StaticBody3D" parent="Environment"]
@@ -135,16 +148,14 @@ mesh = SubResource("BoxMesh_ycdy4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("BoxShape3D_ycdy4")
 
-[node name="Wall2" type="StaticBody3D" parent="Environment"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.5, 0, -0.95000005)
+[node name="shelf" parent="Environment" instance=ExtResource("15_2cqfq")]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -2.1833308, 0, -2.346111)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("BoxMesh_ycdy4")
+[node name="table" parent="Environment" instance=ExtResource("15_vivmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6347444, 4.329826e-08, -2.1604154)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-shape = SubResource("BoxShape3D_ycdy4")
+[node name="sofa" parent="." instance=ExtResource("16_2cqfq")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.039371, 0.0005869904, 0.14244604)
 
 [editable path="XROrigin3D/LeftTrackedHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightTrackedHand/RightHandHumanoid2"]
