@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://wvuydjyfgoe"]
+[gd_scene load_steps=37 format=3 uid="uid://wvuydjyfgoe"]
 
 [ext_resource type="PackedScene" uid="uid://btknduttnmoxf" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_lquwl"]
+[ext_resource type="Texture2D" uid="uid://dhvfnrsbohk5l" path="res://textures/kloppenheim_06_puresky_1k.hdr" id="2_d13ii"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cjcehqrfoxav3" path="res://addons/hand_pose_detector/hands/LeftHandHumanoid.gltf" id="3_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://fiul51tsyoop" path="res://addons/godot-xr-tools/functions/function_teleport.tscn" id="4_4c57u"]
@@ -12,12 +13,30 @@
 [ext_resource type="Resource" uid="uid://ra50ueubhepa" path="res://addons/hand_pose_detector/poses/point_thumb_up.tres" id="7_4c57u"]
 [ext_resource type="Script" uid="uid://dhppxvui1etbk" path="res://addons/hand_pose_detector/hand_pose_action_map.gd" id="8_efxa6"]
 [ext_resource type="Resource" uid="uid://dhbqusuodrl3r" path="res://addons/hand_pose_detector/poses/fist.tres" id="12_ycdy4"]
-[ext_resource type="PackedScene" uid="uid://dqxeeyh87b1jm" path="res://scenes/gramophone_system.tscn" id="13_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://dqxeeyh87b1jm" path="res://scenes/gramophone_system.tscn" id="13_074og"]
 [ext_resource type="Texture2D" uid="uid://dyrevsuh0krqx" path="res://textures/wooden_floor/textures/wood_floor_diff_1k.jpg" id="14_074og"]
 [ext_resource type="PackedScene" uid="uid://c40cnoapub3pd" path="res://models/shelf.glb" id="15_2cqfq"]
 [ext_resource type="Texture2D" uid="uid://dm033lubpu3n6" path="res://textures/wooden_floor/textures/wood_floor_nor_gl_1k.jpg" id="15_cegan"]
 [ext_resource type="PackedScene" uid="uid://vpgh2k6i20fo" path="res://models/table.glb" id="15_vivmo"]
 [ext_resource type="PackedScene" uid="uid://kcsxpb0157yp" path="res://models/sofa.glb" id="16_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://cmy042esaeb1n" path="res://models/wall.glb" id="19_82xsv"]
+[ext_resource type="PackedScene" uid="uid://d3uff5p7bsrnb" path="res://models/wall_with_windows.glb" id="20_82xsv"]
+[ext_resource type="PackedScene" uid="uid://dmxbgeauowqnc" path="res://models/wall_corner_alt.glb" id="20_d13ii"]
+[ext_resource type="PackedScene" uid="uid://h2msjdu1kjaw" path="res://models/wall_with_doors.glb" id="20_getpj"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ryguw"]
+panorama = ExtResource("2_d13ii")
+
+[sub_resource type="Sky" id="Sky_d13ii"]
+sky_material = SubResource("PanoramaSkyMaterial_ryguw")
+
+[sub_resource type="Environment" id="Environment_82xsv"]
+background_mode = 2
+sky = SubResource("Sky_d13ii")
+tonemap_mode = 3
+tonemap_exposure = 1.05
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_82xsv"]
 
 [sub_resource type="Resource" id="Resource_dg77c"]
 script = ExtResource("6_kek77")
@@ -43,6 +62,13 @@ script = ExtResource("8_efxa6")
 actions = Array[ExtResource("6_kek77")]([SubResource("Resource_w48qg")])
 metadata/_custom_type_script = "uid://dhppxvui1etbk"
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_074og"]
+albedo_color = Color(0.056291588, 0.056291603, 0.056291595, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_cegan"]
+material = SubResource("StandardMaterial3D_074og")
+size = Vector2(0.8, 1)
+
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7dm0k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_82xsv"]
@@ -55,23 +81,21 @@ uv1_scale = Vector3(3, 3, 3)
 material = SubResource("StandardMaterial3D_82xsv")
 size = Vector2(5, 7)
 
-[sub_resource type="BoxMesh" id="BoxMesh_ycdy4"]
-size = Vector3(3, 3, 0.1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ycdy4"]
-size = Vector3(3, 3, 0.1)
-
 [node name="Node3D" type="Node3D"]
 
 [node name="StartXR" parent="." instance=ExtResource("1_lquwl")]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_82xsv")
+camera_attributes = SubResource("CameraAttributesPractical_82xsv")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.5308662, 0.8474556, 0, -0.8474556, 0.5308662, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9121059, 0.4099549, 0, -0.4099549, 0.9121059, 0, 2, 0)
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="VRCommonShaderCache" parent="XROrigin3D/XRCamera3D" instance=ExtResource("1_0xm2m")]
 
@@ -122,11 +146,32 @@ controller_pose_type = 1
 controller_action_map = SubResource("Resource_vivmo")
 hand_tracker_name = "/user/hand_tracker/right"
 
-[node name="GramophoneSystem" parent="." instance=ExtResource("13_ycdy4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.71909463, 0.6915636, -2.3546166)
-
 [node name="Environment" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0164171, 0, 0)
+
+[node name="GramophoneSystem" parent="Environment" instance=ExtResource("13_074og")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2870102, 0.69159883, -2.2055955)
+
+[node name="Blackboard" type="Node3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2838819, 1.5854818, -2.3479023)
+
+[node name="Title" type="Label3D" parent="Environment/Blackboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38467634, 0.0050001144)
+double_sided = false
+text = "HOW TO USE A GRAMOPHONE"
+font_size = 12
+autowrap_mode = 3
+width = 150.0
+
+[node name="Instructions" type="Label3D" parent="Environment/Blackboard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.265, 0.005)
+text = "0. Sample text"
+font_size = 12
+vertical_alignment = 0
+autowrap_mode = 2
+width = 150.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Blackboard"]
+mesh = SubResource("QuadMesh_cegan")
 
 [node name="Floor" type="StaticBody3D" parent="Environment"]
 
@@ -137,25 +182,41 @@ shape = SubResource("WorldBoundaryShape3D_7dm0k")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.054163218, 0, 1.0395125)
 mesh = SubResource("PlaneMesh_1bvp3")
 
-[node name="Wall" type="StaticBody3D" parent="Environment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2.45)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-mesh = SubResource("BoxMesh_ycdy4")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-shape = SubResource("BoxShape3D_ycdy4")
-
 [node name="shelf" parent="Environment" instance=ExtResource("15_2cqfq")]
-transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -2.1833308, 0, -2.346111)
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2.245)
 
 [node name="table" parent="Environment" instance=ExtResource("15_vivmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6347444, 4.329826e-08, -2.1604154)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3652557, 4.329826e-08, -2.0604155)
 
-[node name="sofa" parent="." instance=ExtResource("16_2cqfq")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.039371, 0.0005869904, 0.14244604)
+[node name="sofa" parent="Environment" instance=ExtResource("16_2cqfq")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.6, 0.001, -0.15799999)
+
+[node name="wall_corner_alt" parent="Environment" instance=ExtResource("20_d13ii")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.5054843, 0, 1.169122)
+
+[node name="wall_with_doors" parent="Environment" instance=ExtResource("20_getpj")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.325, 0, 2.2)
+
+[node name="wall" parent="." instance=ExtResource("19_82xsv")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, -2.3999999, 0, -2.6000001)
+
+[node name="wall3" parent="." instance=ExtResource("19_82xsv")]
+transform = Transform3D(-6.818976e-08, 0, -1, 0, 1, 0, 1.56, 0, -4.371139e-08, 2.5, 0, -2.6)
+
+[node name="wall2" parent="." instance=ExtResource("19_82xsv")]
+transform = Transform3D(-3.059797e-08, 0, 1, 0, 1, 0, -0.7, 0, -4.371139e-08, -2.4, 0, -0.90000015)
+
+[node name="wall4" parent="." instance=ExtResource("19_82xsv")]
+transform = Transform3D(-5.6824803e-08, 0, 1, 0, 1, 0, -1.3, 0, -4.371139e-08, -2.4, 0, 4.3)
+
+[node name="wall5" parent="." instance=ExtResource("19_82xsv")]
+transform = Transform3D(-1.6, 0, -1.509958e-07, 0, 1, 0, 2.4159328e-07, 0, -1, 1.45, 0, 3.525)
+
+[node name="wall_with_windows" parent="." instance=ExtResource("20_82xsv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.325, 0, 0.2)
+
+[node name="wall_with_windows3" parent="." instance=ExtResource("20_82xsv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.325, 0, 1.1999999)
 
 [editable path="XROrigin3D/LeftTrackedHand/LeftHandHumanoid2"]
 [editable path="XROrigin3D/RightTrackedHand/RightHandHumanoid2"]

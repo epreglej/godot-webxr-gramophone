@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=4 uid="uid://dqxeeyh87b1jm"]
 
-[ext_resource type="PackedScene" uid="uid://cytsgddgkcb5o" path="res://scenes/gramophone_lid.tscn" id="1_3vx45"]
+[ext_resource type="PackedScene" uid="uid://tplv57w72pry" path="res://scenes/gramophone_lid.tscn" id="1_3vx45"]
 [ext_resource type="Script" uid="uid://dwkf6hcob017" path="res://scenes/gramophone_system.gd" id="1_xktn6"]
 [ext_resource type="Texture2D" uid="uid://16ulojtfk6o7" path="res://models/gramophone_baked_mesh_tex0.png" id="2_xktn6"]
 [ext_resource type="Texture2D" uid="uid://b8q647sdxy4kp" path="res://models/gramophone_baked_mesh_tex0.png.png" id="3_2p64v"]
-[ext_resource type="PackedScene" uid="uid://cj4v66ny8a5b0" path="res://scenes/gramophone_crank.tscn" id="5_2p64v"]
+[ext_resource type="PackedScene" uid="uid://6kmwsw1el6er" path="res://scenes/gramophone_crank.tscn" id="5_2p64v"]
 [ext_resource type="PackedScene" uid="uid://dcf6yl2uhhulf" path="res://scenes/gramophone_crank_snap_zone.tscn" id="6_5a3ux"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cg18b"]
@@ -239,7 +239,13 @@ shadow_mesh = SubResource("ArrayMesh_yc3wm")
 script = ExtResource("1_xktn6")
 
 [node name="GramophoneLid" parent="." instance=ExtResource("1_3vx45")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10354881, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10188103, 0)
+
+[node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
+transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
+
+[node name="GramophoneCrank" parent="." instance=ExtResource("5_2p64v")]
+transform = Transform3D(-0.70710677, 0.70710677, 8.742278e-08, 0.70710677, 0.70710677, 0, -6.181724e-08, 6.181724e-08, -1, -0.07679398, 0.13538194, 0.25172794)
 
 [node name="gramophone" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09555662)
@@ -269,30 +275,4 @@ transform = Transform3D(0.009999999, 0, 0, 0, 0, -0.009999999, 0, 0.009999999, 0
 mesh = SubResource("ArrayMesh_6iht1")
 skeleton = NodePath("")
 
-[node name="Label3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76781833, 0)
-text = "Open the lid"
-
-[node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
-transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
-
-[node name="Node3D" type="Node3D" parent="."]
-
-[node name="PickableObject" parent="Node3D" instance=ExtResource("5_2p64v")]
-transform = Transform3D(0.25881907, -0.9659258, 0, 0.9659258, 0.25881907, 0, 0, 0, 1, 0.2550099, 0.028261498, 0.10701734)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Hello"
+[connection signal="has_picked_up" from="GramophoneCrankSnapZone" to="." method="_on_gramophone_crank_snap_zone_has_picked_up"]

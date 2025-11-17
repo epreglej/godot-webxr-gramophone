@@ -4,10 +4,10 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dn6yu"]
 resource_local_to_scene = true
+radius = 0.1
 
 [node name="GramophoneCrankSnapZone" instance=ExtResource("1_dn6yu")]
-grab_distance = 0.5
-snap_mode = 1
+grab_distance = 0.1
 snap_require = "GramophoneCrank"
 
 [node name="CollisionShape3D" parent="." index="0"]
