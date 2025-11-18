@@ -235,17 +235,18 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_yc3wm")
 
-[node name="GramophoneSystem" type="Node3D"]
+[node name="GramophoneSystem" type="Node3D" node_paths=PackedStringArray("crank")]
 script = ExtResource("1_xktn6")
+crank = NodePath("GramophoneCrank")
 
 [node name="GramophoneLid" parent="." instance=ExtResource("1_3vx45")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10188103, 0)
 
-[node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
-transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
-
 [node name="GramophoneCrank" parent="." instance=ExtResource("5_2p64v")]
 transform = Transform3D(-0.70710677, 0.70710677, 8.742278e-08, 0.70710677, 0.70710677, 0, -6.181724e-08, 6.181724e-08, -1, -0.07679398, 0.13538194, 0.25172794)
+
+[node name="GramophoneCrankSnapZone" parent="." instance=ExtResource("6_5a3ux")]
+transform = Transform3D(0.09447324, 0, 0.9955274, 0, 1, 0, -0.9955274, 0, 0.09447324, 0.18605703, 0.08558567, 0.15853396)
 
 [node name="gramophone" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09555662)

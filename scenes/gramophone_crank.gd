@@ -1,4 +1,7 @@
+class_name GramophoneCrank
 extends Node3D
+
+@onready var gramophone_system = get_parent() as GramophoneSystem
 
 @onready var interactable_handle = $"InteractableHandle"
 # @onready var crank_handle = $"./PickableObject/GramophoneCrank/CrankOrigin/InteractableHinge/CrankHandle/InteractableHandle"
@@ -22,3 +25,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
+
+
+func _on_interactable_handle_picked_up(pickable: Variant) -> void:
+	gramophone_system.set_state(gramophone_system.State.CRANK_ACTIVE)

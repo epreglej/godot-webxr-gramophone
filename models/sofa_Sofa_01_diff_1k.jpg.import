@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bv7lvwax0mjr8"
 path.s3tc="res://.godot/imported/sofa_Sofa_01_diff_1k.jpg-a4950da781e14bd5eee60d928e8e4f64.s3tc.ctex"
+path.etc2="res://.godot/imported/sofa_Sofa_01_diff_1k.jpg-a4950da781e14bd5eee60d928e8e4f64.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/sofa_Sofa_01_diff_1k.jpg"
-dest_files=["res://.godot/imported/sofa_Sofa_01_diff_1k.jpg-a4950da781e14bd5eee60d928e8e4f64.s3tc.ctex"]
+dest_files=["res://.godot/imported/sofa_Sofa_01_diff_1k.jpg-a4950da781e14bd5eee60d928e8e4f64.s3tc.ctex", "res://.godot/imported/sofa_Sofa_01_diff_1k.jpg-a4950da781e14bd5eee60d928e8e4f64.etc2.ctex"]
 
 [params]
 

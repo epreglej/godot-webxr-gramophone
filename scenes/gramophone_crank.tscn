@@ -133,3 +133,5 @@ mesh = SubResource("ArrayMesh_ahf61")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_pxlrg")
 surface_material_override/1 = SubResource("StandardMaterial3D_ahf61")
+
+[connection signal="picked_up" from="InteractableHandle" to="." method="_on_interactable_handle_picked_up"]

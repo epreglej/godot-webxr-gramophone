@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b8q647sdxy4kp"
 path.s3tc="res://.godot/imported/gramophone_baked_mesh_tex0.png.png-0b765e46e0fd2a293b7e3cae69f139c8.s3tc.ctex"
+path.etc2="res://.godot/imported/gramophone_baked_mesh_tex0.png.png-0b765e46e0fd2a293b7e3cae69f139c8.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://models/gramophone_baked_mesh_tex0.png.png"
-dest_files=["res://.godot/imported/gramophone_baked_mesh_tex0.png.png-0b765e46e0fd2a293b7e3cae69f139c8.s3tc.ctex"]
+dest_files=["res://.godot/imported/gramophone_baked_mesh_tex0.png.png-0b765e46e0fd2a293b7e3cae69f139c8.s3tc.ctex", "res://.godot/imported/gramophone_baked_mesh_tex0.png.png-0b765e46e0fd2a293b7e3cae69f139c8.etc2.ctex"]
 
 [params]
 
