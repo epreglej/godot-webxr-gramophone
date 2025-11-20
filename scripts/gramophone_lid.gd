@@ -1,4 +1,5 @@
 extends Node3D
+class_name GramophoneLid
 
 @onready var gramophone_system = get_parent() as GramophoneSystem
 
@@ -9,10 +10,8 @@ extends Node3D
 var enabled = false:
 	set(value):
 		enabled = value
-		# Only try to set hinge if node is ready
-		if interactable_hinge && interactable_handle:
-			interactable_handle.enabled = value
-			highlight.visible = value
+		interactable_handle.enabled = value
+		highlight.visible = value
 
 var starting_angle: float = 0.0
 

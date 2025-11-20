@@ -27,6 +27,8 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 [global_group]
 
 GramophoneCrank=""
+GramophoneFilter=""
+Vinyl=""
 
 [layer_names]
 

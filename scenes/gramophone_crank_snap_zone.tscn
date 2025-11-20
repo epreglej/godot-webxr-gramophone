@@ -1,14 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcf6yl2uhhulf"]
+[gd_scene load_steps=5 format=3 uid="uid://b317erjfmk5yi"]
 
-[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="1_dn6yu"]
+[ext_resource type="Script" uid="uid://cy1cpi3pq0v4" path="res://addons/godot-xr-tools/objects/snap_zone.gd" id="1_hronh"]
+[ext_resource type="Script" uid="uid://g5ul2j8vomlh" path="res://scripts/gramophone_crank_snap_zone.gd" id="2_hronh"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="3_mrkr2"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_dn6yu"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_hronh"]
 resource_local_to_scene = true
 radius = 0.1
 
-[node name="GramophoneCrankSnapZone" instance=ExtResource("1_dn6yu")]
+[node name="GramophoneCrankSnapZone" type="Node3D" node_paths=PackedStringArray("snap_zone", "highlight")]
+script = ExtResource("2_hronh")
+snap_zone = NodePath("XRToolsSnapZone")
+highlight = NodePath("XRToolsSnapZone/HighlightRing")
+
+[node name="XRToolsSnapZone" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 65540
+script = ExtResource("1_hronh")
 grab_distance = 0.1
 snap_require = "GramophoneCrank"
 
-[node name="CollisionShape3D" parent="." index="0"]
-shape = SubResource("SphereShape3D_dn6yu")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XRToolsSnapZone"]
+shape = SubResource("SphereShape3D_hronh")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="XRToolsSnapZone"]
+unit_size = 3.0
+max_db = 1.0
+max_distance = 100.0
+
+[node name="HighlightRing" parent="XRToolsSnapZone" instance=ExtResource("3_mrkr2")]
+
+[connection signal="body_entered" from="XRToolsSnapZone" to="XRToolsSnapZone" method="_on_snap_zone_body_entered"]
+[connection signal="body_exited" from="XRToolsSnapZone" to="XRToolsSnapZone" method="_on_snap_zone_body_exited"]
+[connection signal="has_picked_up" from="XRToolsSnapZone" to="." method="_on_gramophone_crank_snap_zone_has_picked_up"]

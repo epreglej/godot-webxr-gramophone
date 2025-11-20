@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://n1w45qp2t14r"]
+
+[ext_resource type="Script" uid="uid://cg2rm2vmxfunl" path="res://scripts/vinyl.gd" id="1_f7vew"]
+[ext_resource type="Script" uid="uid://biliwngfo3j8d" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_hnqwo"]
+[ext_resource type="PackedScene" uid="uid://dns0q3s6mt1s" path="res://models/filter.glb" id="2_hnqwo"]
+[ext_resource type="AudioStream" uid="uid://doey8ol4yj7st" path="res://audio/NocheYDia_ColePorter2.mp3" id="2_ujris"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="3_f7vew"]
+[ext_resource type="PackedScene" uid="uid://dh8grd7s3n8kg" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_snap.tscn" id="4_ujris"]
+[ext_resource type="PackedScene" uid="uid://bsp0joodc5fd4" path="res://models/vinyl_noche_y_dia.blend" id="5_esfer"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2t34m"]
+cull_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.7921569, 0, 1)
+disable_receive_shadows = true
+grow = true
+grow_amount = 0.005
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hnqwo"]
+height = 0.011936035
+radius = 0.11279297
+
+[node name="VinylNocheYDia" type="Node3D" node_paths=PackedStringArray("highlight")]
+script = ExtResource("1_f7vew")
+song = ExtResource("2_ujris")
+title = "Noche y Dia"
+highlight = NodePath("InteractableHandle/Highlight")
+
+[node name="InteractableHandle" type="RigidBody3D" parent="." groups=["Vinyl"]]
+collision_layer = 4
+collision_mask = 196615
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_hnqwo")
+ranged_grab_method = 0
+second_hand_grab = 2
+
+[node name="Highlight" type="Node3D" parent="InteractableHandle"]
+
+[node name="filter" parent="InteractableHandle/Highlight" instance=ExtResource("2_hnqwo")]
+
+[node name="Filter" parent="InteractableHandle/Highlight/filter" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_2t34m")
+
+[node name="GrabPointHandRight" parent="InteractableHandle" instance=ExtResource("3_f7vew")]
+transform = Transform3D(-0.045572326, -0.99896103, 0, 0.99896103, -0.045572326, 0, 0, 0, 1, -0.038964666, -0.011680856, 0.013506606)
+
+[node name="GrabPointSnap" parent="InteractableHandle" instance=ExtResource("4_ujris")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.006987963, -0.00033972785)
+require_group = "Vinyl"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableHandle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.003312733, 0)
+shape = SubResource("CylinderShape3D_hnqwo")
+
+[node name="vinyl_noche_y_dia" parent="InteractableHandle" instance=ExtResource("5_esfer")]
+
+[editable path="InteractableHandle/Highlight/filter"]

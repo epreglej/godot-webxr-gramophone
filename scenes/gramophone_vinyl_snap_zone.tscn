@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://pjsfowbr1t2y"]
+
+[ext_resource type="Script" uid="uid://c4efxa6i047ge" path="res://scripts/gramophone_vinyl_snap_zone.gd" id="1_njok3"]
+[ext_resource type="Script" uid="uid://cy1cpi3pq0v4" path="res://addons/godot-xr-tools/objects/snap_zone.gd" id="2_cs3k2"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="3_p7dsb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ob1gg"]
+resource_local_to_scene = true
+radius = 0.1
+
+[node name="GramophoneVinylSnapZone" type="Node3D" node_paths=PackedStringArray("snap_zone", "highlight")]
+script = ExtResource("1_njok3")
+snap_zone = NodePath("XRToolsSnapZone")
+highlight = NodePath("XRToolsSnapZone/HighlightRing")
+
+[node name="XRToolsSnapZone" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 65540
+script = ExtResource("2_cs3k2")
+grab_distance = 0.1
+snap_require = "Vinyl"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XRToolsSnapZone"]
+shape = SubResource("SphereShape3D_ob1gg")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="XRToolsSnapZone"]
+unit_size = 3.0
+max_db = 1.0
+max_distance = 100.0
+
+[node name="HighlightRing" parent="XRToolsSnapZone" instance=ExtResource("3_p7dsb")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+
+[connection signal="body_entered" from="XRToolsSnapZone" to="XRToolsSnapZone" method="_on_snap_zone_body_entered"]
+[connection signal="body_exited" from="XRToolsSnapZone" to="XRToolsSnapZone" method="_on_snap_zone_body_exited"]
+[connection signal="has_picked_up" from="XRToolsSnapZone" to="." method="_on_xr_tools_snap_zone_has_picked_up"]

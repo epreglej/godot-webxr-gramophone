@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://co5hh0u26f6x"]
+
+[ext_resource type="PackedScene" uid="uid://b4v62gyh1oqa2" path="res://models/brake.blend" id="1_50e0k"]
+[ext_resource type="Script" uid="uid://dkf40q24qhoix" path="res://scripts/gramophone_brake.gd" id="1_pe5bk"]
+[ext_resource type="Script" uid="uid://d310ehmoj6dsw" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3_pe5bk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_grqo5"]
+radius = 0.06
+
+[node name="GramophoneBrake" type="Node3D"]
+script = ExtResource("1_pe5bk")
+
+[node name="InteractableHandle" type="RigidBody3D" parent="."]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3_pe5bk")
+snap_distance = 0.0
+picked_up_layer = 0
+ranged_grab_method = 0
+second_hand_grab = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableHandle"]
+shape = SubResource("SphereShape3D_grqo5")
+
+[node name="brake" parent="InteractableHandle" instance=ExtResource("1_50e0k")]
+
+[connection signal="grabbed" from="InteractableHandle" to="." method="_on_interactable_handle_grabbed"]
