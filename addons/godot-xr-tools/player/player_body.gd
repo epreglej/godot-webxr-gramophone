@@ -546,6 +546,9 @@ func _estimate_body_forward_dir() -> Vector3:
 	return forward
 
 # This method updates the player body to match the player position
+# This method updates the player body to match the player position
+# Modified so the body no longer follows the head in X/Z,
+# only height is updated from the head.
 func _update_body_under_camera(delta : float):
 	# Initially calibration of player height
 	if player_calibrate_height:
@@ -606,29 +609,16 @@ func _update_body_under_camera(delta : float):
 			current_height + player_height_rate * delta,
 			player_height)
 
-		# Calculate a reduced height - slghtly smaller than the current player
-		# height so we can cast a virtual head up and probe the where we hit the
-		# ceiling.
+		# Calculate a reduced height - slightly smaller than the current player
+		# height so we can conceptually probe towards the ceiling.
 		var reduced_height : float = max(
 			current_height - 0.1,
 			player_radius)
 
-		# Calculate how much we want to grow to hit the target height
+		# Grow freely from reduced_height towards target_height (no head collision)
 		var grow := target_height - reduced_height
-
-		# Cast the virtual head up from the reduced-height position up to the
-		# target height to check for ceiling collisions.
-		_head_shape_cast.shape.radius = player_radius
-		_head_shape_cast.transform.origin.y = reduced_height - player_radius
-		_head_shape_cast.collision_mask = collision_mask
-		_head_shape_cast.target_position = Vector3.UP * grow
-		_head_shape_cast.force_shapecast_update()
-
-		# Use the ceiling collision information to decide how much to grow the
-		# player height
-		var safe := _head_shape_cast.get_closest_collision_safe_fraction()
 		player_height = max(
-			reduced_height + grow * safe,
+			reduced_height + grow,
 			current_height)
 
 	# Adjust the collision shape to match the player geometry
@@ -636,20 +626,34 @@ func _update_body_under_camera(delta : float):
 	_collision_node.shape.height = player_height
 	_collision_node.transform.origin.y = (player_height / 2.0)
 
-	# Center the kinematic body on the ground under the camera
+	# --- IMPORTANT CHANGE STARTS HERE ---
+
+	# We no longer snap the body X/Z to the camera.
+	# The body stays where physics/locomotion put it (XZ),
+	# and only its height (Y) is adjusted from the head.
+
 	var curr_transform := global_transform
 	var camera_transform := camera_node.global_transform
-	curr_transform.basis = origin_node.global_transform.basis
-	curr_transform.origin = camera_transform.origin
-	curr_transform.origin += up_player * (player_head_height - player_height)
 
-	# The camera/eyes are towards the front of the body, so move the body back slightly
+	# Keep body orientation aligned with the origin / gravity
+	curr_transform.basis = origin_node.global_transform.basis
+
+	# Optionally orient body roughly towards where the head is looking
 	var forward_dir := _estimate_body_forward_dir()
 	if forward_dir.length() > 0.01:
-		curr_transform = curr_transform.looking_at(curr_transform.origin + forward_dir, up_player)
-		curr_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
+		curr_transform = curr_transform.looking_at(
+			curr_transform.origin + forward_dir,
+			up_player)
 
-	# Set the body position
+	# Only update vertical position so capsule height matches head height.
+	# X/Z stays untouched, so moving your real head in room-scale won't drag the body.
+	curr_transform.origin.y = camera_transform.origin.y + (player_head_height - player_height)
+
+	# Do NOT do:
+	#   curr_transform.origin = camera_transform.origin
+	# and do NOT apply eye_forward_offset here, or it will move the body in X/Z again.
+
+	# Set the body transform
 	global_transform = curr_transform
 
 # This method updates the information about the ground under the players feet

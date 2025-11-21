@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://co5hh0u26f6x"]
+[gd_scene load_steps=6 format=3 uid="uid://co5hh0u26f6x"]
 
 [ext_resource type="PackedScene" uid="uid://b4v62gyh1oqa2" path="res://models/brake.blend" id="1_50e0k"]
 [ext_resource type="Script" uid="uid://dkf40q24qhoix" path="res://scripts/gramophone_brake.gd" id="1_pe5bk"]
@@ -7,8 +7,17 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_grqo5"]
 radius = 0.06
 
-[node name="GramophoneBrake" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hh3mw"]
+cull_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.7921569, 0, 1)
+disable_receive_shadows = true
+grow = true
+grow_amount = 0.007
+
+[node name="GramophoneBrake" type="Node3D" node_paths=PackedStringArray("highlight")]
 script = ExtResource("1_pe5bk")
+highlight = NodePath("Highlight")
 
 [node name="InteractableHandle" type="RigidBody3D" parent="."]
 collision_layer = 262144
@@ -25,4 +34,13 @@ shape = SubResource("SphereShape3D_grqo5")
 
 [node name="brake" parent="InteractableHandle" instance=ExtResource("1_50e0k")]
 
+[node name="Highlight" type="Node3D" parent="."]
+
+[node name="brake" parent="Highlight" instance=ExtResource("1_50e0k")]
+
+[node name="freno" parent="Highlight/brake" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_hh3mw")
+
 [connection signal="grabbed" from="InteractableHandle" to="." method="_on_interactable_handle_grabbed"]
+
+[editable path="Highlight/brake"]

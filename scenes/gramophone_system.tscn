@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://dqxeeyh87b1jm"]
+[gd_scene load_steps=27 format=4 uid="uid://dqxeeyh87b1jm"]
 
 [ext_resource type="PackedScene" uid="uid://tplv57w72pry" path="res://scenes/gramophone_lid.tscn" id="1_3vx45"]
 [ext_resource type="Script" uid="uid://dwkf6hcob017" path="res://scripts/gramophone_system.gd" id="1_xktn6"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://co5hh0u26f6x" path="res://scenes/gramophone_brake.tscn" id="10_4qbh5"]
 [ext_resource type="PackedScene" uid="uid://vpgh2k6i20fo" path="res://models/table.glb" id="10_c3bly"]
 [ext_resource type="PackedScene" uid="uid://n1w45qp2t14r" path="res://scenes/vinyl_noche_y_dia.tscn" id="11_oed6l"]
+[ext_resource type="AudioStream" uid="uid://dbvxh28hm65ay" path="res://audio/NocheYDia_ColePorter2.ogg" id="14_sjscw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cg18b"]
 resource_name = "Texture"
@@ -226,7 +227,8 @@ vinyls = [NodePath("VinylNocheYDia")]
 vinyl_snap_zone = NodePath("GramophoneVinylSnapZone")
 brake = NodePath("GramophoneBrake")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_sjscw")
 
 [node name="GramophoneLid" parent="." instance=ExtResource("1_3vx45")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.785493, -0.13652727)
@@ -285,5 +287,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_oed6l")
 
 [node name="VinylNocheYDia" parent="." instance=ExtResource("11_oed6l")]
 transform = Transform3D(0.42261824, 0.9063078, 0, -0.9063078, 0.42261824, 0, 0, 0, 1, -0.125, 0.32, 0)
+song = ExtResource("14_sjscw")
+artist = "Cole Porter"
 
 [editable path="Table"]
